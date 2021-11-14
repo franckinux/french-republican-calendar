@@ -29,7 +29,8 @@ fn feb_length(year: i32) -> i32 {
     }
 }
 
-pub fn test_gregorian_dates() -> i32 {
+#[test]
+pub fn test_gregorian_dates() {
     let mut month_length: [i32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
     println!("Verifying all Gregorian calendar dates from the year {} to {}\n", -4714, 10000);
@@ -39,7 +40,6 @@ pub fn test_gregorian_dates() -> i32 {
     let mut day = 25;
     let mut sdn = 1;
     month_length[1] = feb_length(year);
-    let mut n_errors = 0;
 
     loop {
         let g_date2 = gregorian_calendar::GregorianDate{day, month, year};
@@ -47,12 +47,7 @@ pub fn test_gregorian_dates() -> i32 {
 
         let g_date = gregorian_calendar::sdn_to_gregorian(sdn);
 
-        if sdn2 != sdn || g_date != g_date2 {
-            n_errors += 1;
-            if n_errors <= 10 {
-                println!("{} {:?}   erroneous: {} {:?}", sdn, g_date, sdn2, g_date2);
-            }
-        }
+        assert!(sdn2 == sdn && g_date == g_date2, "{} {:?}   erroneous: {} {:?}", sdn, g_date, sdn2, g_date2);
 
         sdn += 1;
         day += 1;
@@ -79,7 +74,4 @@ pub fn test_gregorian_dates() -> i32 {
             }
         }
     }
-
-    println!("Total number of errors found: {}", n_errors);
-    n_errors
 }

@@ -3,9 +3,6 @@ use std::io::Write;
 
 use repub_cli::{french_calendar, gregorian_calendar};
 
-mod test_french;
-mod test_gregorian;
-
 fn read_value(entity: &str) -> i32 {
     loop {
         let mut value = String::new();
@@ -20,9 +17,6 @@ fn read_value(entity: &str) -> i32 {
 }
 
 fn main() {
-    test_french::test_french_dates();
-    test_gregorian::test_gregorian_dates();
-
     loop {
         println!( "\nEntrée de la date révolutionnaire");
         println!( "---------------------------------");
@@ -50,7 +44,7 @@ fn main() {
             year
         );
         println!(
-            "Date au calendrier grégorien : {:02}/{:02}/{:4}",
+            "Date au calendrier grégorien : {} {} {:4}",
             gregorian_date.day,
             gregorian_calendar::LONG_MONTH_NAME[gregorian_date.month as usize],
             gregorian_date.year

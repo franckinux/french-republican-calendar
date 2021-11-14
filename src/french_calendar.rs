@@ -100,7 +100,7 @@ pub const FRENCH_MONTH_NAME: &'static [&'static str] = &[
     "Extra"
 ];
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq)]
 pub struct FrenchDate {
     pub day: i32,
     pub month: i32,

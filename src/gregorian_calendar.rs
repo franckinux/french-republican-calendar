@@ -124,7 +124,7 @@ const DAYS_PER_5_MONTHS: i32 = 153;
 const DAYS_PER_4_YEARS: i32 = 1461;
 const DAYS_PER_400_YEARS: i32 = 146097;
 
-#[derive(Debug, PartialEq, Eq)]
+#[derive(Debug, PartialEq)]
 pub struct GregorianDate {
     pub day: i32,
     pub month: i32,

@@ -7,12 +7,11 @@ use repub_cli::{french_calendar, gregorian_calendar};
  * copies.  THERE IS NO WARRANTY - USE AT YOUR OWN RISK.
  */
 
-pub fn test_french_dates() -> i32 {
+#[test]
+pub fn test_french_dates() {
     const YEAR_START: [i32; 14]  = [
         22, 22, 22, 23, 22, 22, 22, 23, 23, 23, 23, 24, 23, 23,
     ];
-
-    let mut n_errors = 0;
 
     println!("Verifying the French calendar with 14 known dates");
 
@@ -24,12 +23,7 @@ pub fn test_french_dates() -> i32 {
         let g_date = gregorian_calendar::GregorianDate{year: ii+1792, month: 9, day: year_start};
         let g_sdn = gregorian_calendar::gregorian_to_sdn(&g_date);
 
-        if f_sdn != g_sdn {
-            n_errors += 1;
-            println!(
-                "error: {:?}={} != {:?}={}", f_date, f_sdn, g_date, g_sdn
-            );
-        }
+        assert!(f_sdn == g_sdn, "error: {:?}={} != {:?}={}", f_date, f_sdn, g_date, g_sdn);
     }
 
     println!("Verifying all French republican calendar dates from the year {} to {}", 1, 14);
@@ -45,12 +39,7 @@ pub fn test_french_dates() -> i32 {
 
         let f_date = french_calendar::sdn_to_french(sdn);
 
-        if sdn2 != sdn || f_date != f_date2 {
-            n_errors += 1;
-            if n_errors <= 1000 {
-                println!("{} {:?}   erroneous: {} {:?}", sdn, f_date, sdn2, f_date2);
-            }
-        }
+        assert!(sdn2 == sdn && f_date == f_date2, "{} {:?}   erroneous: {} {:?}", sdn, f_date, sdn2, f_date2);
 
         sdn += 1;
         day += 1;
@@ -67,7 +56,4 @@ pub fn test_french_dates() -> i32 {
             break;
         }
     }
-
-    println!("Total number of errors found: {}", n_errors);
-    n_errors
 }
