@@ -85,14 +85,14 @@ const LAST_VALID: i32 = 2380952;
 
 pub const FRENCH_MONTH_NAME: &'static [&'static str] = &[
     "",
-    "Vendemiaire",
+    "Vendémiaire",
     "Brumaire",
     "Frimaire",
-    "Nivose",
-    "Pluviose",
-    "Ventose",
+    "Nivôse",
+    "Pluviôse",
+    "Ventôse",
     "Germinal",
-    "Floreal",
+    "Floréal",
     "Prairial",
     "Messidor",
     "Thermidor",
@@ -105,6 +105,21 @@ pub struct FrenchDate {
     pub day: i32,
     pub month: i32,
     pub year: i32
+}
+
+impl FrenchDate {
+    pub fn next_day(&mut self) {
+        self.day += 1;
+        if self.day > 30 {
+            self.day = 1;
+            self.month += 1;
+        }
+        if self.month == 13 && self.day > 5 + if (self.year + 1) % 4 == 0 {1} else {0} {
+            self.day = 1;
+            self.month = 1;
+            self.year += 1;
+        }
+    }
 }
 
 pub fn sdn_to_french(sdn: i32) -> FrenchDate {

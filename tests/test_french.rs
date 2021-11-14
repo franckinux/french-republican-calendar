@@ -28,31 +28,18 @@ pub fn test_french_dates() {
 
     println!("Verifying all French republican calendar dates from the year {} to {}", 1, 14);
 
-    let mut year = 1;
-    let mut month = 1;
-    let mut day = 1;
     let mut sdn = 2375840;
+    let mut f_date2 = french_calendar::FrenchDate{day: 1, month: 1, year: 1};
 
     loop {
-        let f_date2 = french_calendar::FrenchDate{day, month, year};
         let sdn2 = french_calendar::french_to_sdn(&f_date2);
-
         let f_date = french_calendar::sdn_to_french(sdn);
-
         assert!(sdn2 == sdn && f_date == f_date2, "{} {:?}   erroneous: {} {:?}", sdn, f_date, sdn2, f_date2);
 
         sdn += 1;
-        day += 1;
-        if day > 30 {
-            day = 1;
-            month += 1;
-        }
-        if month == 13 && day > 5 + if (year + 1) % 4 == 0 {1} else {0} {
-            day = 1;
-            month = 1;
-            year += 1;
-        }
-        if year > 14 {
+        f_date2.next_day();
+
+        if f_date2.year > 14 {
             break;
         }
     }

@@ -128,7 +128,48 @@ const DAYS_PER_400_YEARS: i32 = 146097;
 pub struct GregorianDate {
     pub day: i32,
     pub month: i32,
-    pub year: i32
+    pub year: i32,
+}
+
+impl GregorianDate {
+    fn feb_length(&self) -> i32 {
+        let mut y = self.year;
+        if y < 0 {
+            y += 1;
+        }
+        y += 4800;
+
+        if y % 4 == 0 {
+            if y % 100 == 0 {
+                if y % 400 == 0 {
+                    29
+                } else {
+                    28
+                }
+            } else {
+                29
+            }
+        } else {
+            28
+        }
+    }
+
+    pub fn next_day(&mut self) {
+        const MONTH_LENGTH: [i32; 12] = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+        self.day += 1;
+        let month_length = if self.month == 2 {self.feb_length()} else {MONTH_LENGTH[self.month as usize-1]};
+        if self.day > month_length {
+            self.day = 1;
+            self.month += 1;
+            if self.month > 12 {
+                self.month = 1;
+                self.year += 1;
+                if self.year == 0 {
+                    self.year += 1;
+                }
+            }
+        }
+    }
 }
 
 pub const SHORT_MONTH_NAME: &'static [&'static str] = &[
